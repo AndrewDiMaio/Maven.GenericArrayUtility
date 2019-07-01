@@ -2,17 +2,18 @@ package com.zipcodewilmington.arrayutility;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 /**
  * Created by leon on 3/6/18.
  */
 public class ArrayUtility<O> {
-    Object[] inputArray;
-    public ArrayUtility(Object[] inputArray) {
+    O[] inputArray;
+    public ArrayUtility(O[] inputArray) {
         this.inputArray = inputArray;
     }
 
-    public Integer countDuplicatesInMerge(Object[] arrayToMerge, Object valueToEvaluate) {
+    public Integer countDuplicatesInMerge(O[] arrayToMerge, O valueToEvaluate) {
 
         Integer count = 0;
         for (int i = 0; i<arrayToMerge.length; i++){
@@ -24,26 +25,29 @@ public class ArrayUtility<O> {
             if (inputArray[i].equals(valueToEvaluate)){
                 count++;
             }
-        }
-        return count;
+        }return count;
     }
 
-    public O getMostCommonFromMerge(Object[] arrayToMerge) {
+    public O getMostCommonFromMerge(O[] arrayToMerge) {
         Integer count = 1;
-        Object mostCommon = arrayToMerge[0];
-        for (int i = 0; i<arrayToMerge.length; i++){
-            for (int j=1; j<arrayToMerge.length-1;j++){
-                if (arrayToMerge[i].equals(arrayToMerge[j])){
-                    Integer tempCount = count+1;
-                    if (tempCount >count){
+        O mostCommon = arrayToMerge[0];
+        int i = 0;
+        while (i<arrayToMerge.length) {
+            for (O o : arrayToMerge) {
+                if (arrayToMerge[i].equals(o)) {
+                    Integer tempCount = count + 1;
+                    if (tempCount > count) {
                         mostCommon = arrayToMerge[i];
                     }
                 }
             }
-        }return (O) mostCommon;
+            i++;
+        }
+        System.out.println(mostCommon);
+        return mostCommon;
     }
 
-    public Integer getNumberOfOccurrences(Object valueToEvaluate) {
+    public Integer getNumberOfOccurrences(O valueToEvaluate) {
         Integer count = 0;
         for (int i = 0; i<inputArray.length; i++) {
             if (inputArray[i].equals(valueToEvaluate)) {
@@ -52,13 +56,15 @@ public class ArrayUtility<O> {
         }return count;
     }
 
-    public O[] removeValue(Object valueToRemove) {
-        int val = Arrays.asList(inputArray).size();
-        ArrayList test = new ArrayList();
+    public O[] removeValue(O valueToRemove) {
+        int val = inputArray.length;
+        List<O> list = new ArrayList<>();
         for (int i = 0; i<val; i++) {
             if (!inputArray[i].equals(valueToRemove)) {
-                test.add(inputArray[i]);
+                list.add(inputArray[i]);
             }
-        }return (O[]) test.toArray();
+        }
+        O[] copy = Arrays.copyOf(inputArray, inputArray.length-getNumberOfOccurrences(valueToRemove));
+        return list.toArray(copy);
     }
 }
